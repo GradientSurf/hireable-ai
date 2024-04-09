@@ -6,16 +6,16 @@ import time
 
 
 class ChatAPI:
-    def __init__(self):
+    def __init__(self, chatbox_container):
+        self.chatbox_container = chatbox_container
         if "messages" not in st.session_state:
             st.session_state.messages = []
         self.messages = st.session_state.messages
 
     def chat_history(self):
         self.messages = st.session_state.messages
-        # print(self.messages)
         for message in self.messages:
-            with st.chat_message(message["role"]):
+            with self.chatbox_container.chat_message(message["role"]):
                 st.markdown(message["content"])
 
     def update_session_state(self, role, content):
@@ -29,19 +29,17 @@ class ChatAPI:
             time.sleep(0.05)
 
     def chat_input(self):
-
-        if prompt := st.chat_input("What's up BAITCH?"):
-            with st.chat_message("user"):
-                st.markdown(prompt)
+        if prompt := st.chat_input("Ask a question"):
             self.update_session_state("user", prompt)
+            with self.chatbox_container.chat_message("user"):
+                st.markdown(prompt)
             response = None
-            with st.chat_message("assistant"):
+            with self.chatbox_container.chat_message("assistant"):
                 response = st.write_stream(self.response_generator(prompt))
 
             self.update_session_state("assistant", response)
 
     def init_chat(self):
-        st.title("Ask a Question about your Resume")
         self.chat_history()
         self.chat_input()
 
@@ -51,6 +49,8 @@ uploaded_file = st.file_uploader("Choose a file", type="pdf")
 file_name = "resume.pdf"
 folder_name = "./temp"
 
+insights_tab, chat_tab = st.tabs(["Insights", "Chat"])
+
 if uploaded_file:
     if not os.path.isdir(folder_name):
         os.mkdir(folder_name)
@@ -59,11 +59,16 @@ if uploaded_file:
 
     with open(path, "wb") as f:
         f.write(uploaded_file.getvalue())
+    with insights_tab:
+        insights_tab.subheader("Get Insights from your Resume")
+        review_api = ReviewAPI()
+        if st.button("Get Insights"):
+            response = review_api.insights()
+            st.write(response)
+    
+    with chat_tab:
+        chat_tab.subheader("Ask a Question about your Resume")
+        chatbox = st.container(height=400)
 
-    review_api = ReviewAPI()
-    if st.button("Get Insights"):
-        response = review_api.insights()
-        st.write(response)
-
-    chat_api = ChatAPI()
-    chat_api.init_chat()
+        chat_api = ChatAPI(chatbox_container=chatbox)
+        chat_api.init_chat()

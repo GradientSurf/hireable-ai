@@ -12,7 +12,7 @@ class ReviewAPI:
             model_name=self.config["embedding_model"],
             api_key=os.getenv("GEMINI_API_KEY"),
         )
-        Settings.llm = Gemini(api_key=os.getenv("GEMINI_API_KEY"), temperature=0)
+        Settings.llm = Gemini(api_key=os.getenv("GEMINI_API_KEY"), temperature=0.1)
 
         documents = SimpleDirectoryReader(self.config["temp_dir_path"]).load_data()
         index = VectorStoreIndex.from_documents(documents)
