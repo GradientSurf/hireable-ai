@@ -9,7 +9,8 @@ class ReviewAPI:
     def __init__(self):
         self.config = Utils().load_config()
         Settings.embed_model = GeminiEmbedding(
-            model_name=self.config["embedding_model"], api_key=os.getenv("GEMINI_API_KEY")
+            model_name=self.config["embedding_model"],
+            api_key=os.getenv("GEMINI_API_KEY"),
         )
         Settings.llm = Gemini(api_key=os.getenv("GEMINI_API_KEY"), temperature=0)
 
@@ -21,13 +22,15 @@ class ReviewAPI:
 
         self._insights_prompt = self.config["insights_prompt"]
         self._chat_prompt_template = self.config["chat_prompt_template"]
-    
+
     def insights(self):
         response = self.query_engine.query(self._insights_prompt)
         return response.response
-    
+
     def chat(self, user_query):
-        response = self.chat_engine.chat(self._chat_prompt_template.format(user_query=user_query))
+        response = self.chat_engine.chat(
+            self._chat_prompt_template.format(user_query=user_query)
+        )
         return response.response
 
 

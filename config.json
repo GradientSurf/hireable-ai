@@ -1,6 +1,6 @@
 {
     "insights_prompt" : "What is the document about? suggest some changes in this resume which can be made to improve it. Format the response in bullet points and give insights about the areas of improvement.",
-    "chat_prompt_template": "Based on the provided document in the context, answer the following question, {user_question}",
+    "chat_prompt_template": "Based on the provided document in the context, answer the following question , {user_query} and format the response as a nested unordered list appropriately",
     "temp_dir_path": "./temp",
     "embedding_model": "models/embedding-001"
 }
