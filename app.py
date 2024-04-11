@@ -47,8 +47,7 @@ class ChatAPI:
 def update_api_key(api_key):
     # dotenv_file = find_dotenv()
     # set_key(dotenv_file, "GEMINI_API_KEY", api_key)
-    st.secrets["GEMINI_API_KEY"] = api_key
-    st.write(os.environ["GEMINI_API_KEY"] == st.secrets["GEMINI_API_KEY"])
+    os.environ["GEMINI_API_KEY"] = api_key
     # load_dotenv()
 
 file_name = "resume.pdf"
