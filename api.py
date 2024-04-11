@@ -6,7 +6,7 @@ import json
 
 
 class ReviewAPI:
-    def __init__(self):
+    def __init__(self, job_description):
         self.config = Utils().load_config()
         Settings.embed_model = GeminiEmbedding(
             model_name=self.config["embedding_model"],
@@ -23,13 +23,15 @@ class ReviewAPI:
         self._insights_prompt = self.config["insights_prompt"]
         self._chat_prompt_template = self.config["chat_prompt_template"]
 
+        self.jd = job_description
+
     def insights(self):
-        response = self.query_engine.query(self._insights_prompt)
+        response = self.query_engine.query(self._insights_prompt.format(job_description=self.jd))
         return response.response
 
     def chat(self, user_query):
         response = self.chat_engine.chat(
-            self._chat_prompt_template.format(user_query=user_query)
+            self._chat_prompt_template.format(job_description=self.jd, user_query=user_query)
         )
         return response.response
 

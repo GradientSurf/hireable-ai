@@ -1,6 +1,6 @@
 {
-    "insights_prompt" : "What is the document about? suggest some changes in this resume which can be made to improve it. Format the response in bullet points and give insights about the areas of improvement.",
-    "chat_prompt_template": "You are a helpful assistant. Based on the provided document in the context and your own domain knowledge, answer the following\n[User Query] {user_query}.\nFormat the response as a nested unordered list appropriately",
+    "insights_prompt" : "Given the document provided in the context and the [Job Description]\n{job_description}\ntell me which keywords from the document match the [Job Description] and then suggest changes in this document which can be made to better align it with the provided [Job Description].\nFormat the response in bullet points and give insights about the areas of improvement.",
+    "chat_prompt_template": "You are a helpful assistant.\nFor the given [Job Description]\n{job_description}\nin the context and your own domain knowledge, answer the following\n[User Query] {user_query}.\nFormat the response as a nested unordered list appropriately.",
     "temp_dir_path": "./temp",
     "embedding_model": "models/embedding-001"
 }

@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key, find_dotenv
 from api import ReviewAPI
 import time
 
@@ -44,12 +44,28 @@ class ChatAPI:
         self.chat_input()
 
 
-load_dotenv()
-uploaded_file = st.file_uploader("Choose a file", type="pdf")
+def update_api_key(api_key):
+    dotenv_file = find_dotenv()
+    set_key(dotenv_file, "GEMINI_API_KEY", api_key)
+    load_dotenv()
+
 file_name = "resume.pdf"
 folder_name = "./temp"
 
-insights_tab, chat_tab = st.tabs(["Insights", "Chat"])
+input_tab, insights_tab, chat_tab = st.tabs(["Inputs", "Insights", "Chat"])
+
+condition_job_desc = False
+condition_file_upload = False
+
+
+with input_tab:
+    if api_key := st.text_input("Enter your GEMINI_API_KEY"):
+        update_api_key(api_key=api_key)
+    if uploaded_file := st.file_uploader("Choose a file", type="pdf"):
+        condition_file_upload = True
+    if job_description := st.text_area("Enter the JD of the Job you're applying to."):
+        condition_job_desc = True
+    
 
 if uploaded_file:
     if not os.path.isdir(folder_name):
@@ -61,10 +77,11 @@ if uploaded_file:
         f.write(uploaded_file.getvalue())
     with insights_tab:
         insights_tab.subheader("Get Insights from your Resume")
-        review_api = ReviewAPI()
-        if st.button("Get Insights"):
-            response = review_api.insights()
-            st.write(response)
+        if condition_job_desc:
+            review_api = ReviewAPI(job_description=job_description)
+            if st.button("Get Insights"):
+                response = review_api.insights()
+                st.write(response)
     
     with chat_tab:
         chat_tab.subheader("Ask a Question about your Resume")
