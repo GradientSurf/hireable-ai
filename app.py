@@ -58,6 +58,7 @@ input_tab, insights_tab, chat_tab = st.tabs(["Inputs", "Insights", "Chat"])
 condition_job_desc = False
 condition_file_upload = False
 
+st.title("hireable-ai")
 
 with input_tab:
     if api_key := st.text_input("Enter your GEMINI_API_KEY"):
