@@ -1,6 +1,5 @@
 import streamlit as st
 import os
-from dotenv import load_dotenv, set_key, find_dotenv
 from api import ReviewAPI
 import time
 
@@ -50,6 +49,7 @@ def update_api_key(api_key):
     os.environ["GEMINI_API_KEY"] = api_key
     # load_dotenv()
 
+
 file_name = "resume.pdf"
 folder_name = "./temp"
 st.title("hireable-ai")
@@ -66,7 +66,7 @@ with input_tab:
         condition_file_upload = True
     if job_description := st.text_area("Enter the JD of the Job you're applying to."):
         condition_job_desc = True
-    
+
 
 if uploaded_file:
     if not os.path.isdir(folder_name):
@@ -83,7 +83,7 @@ if uploaded_file:
             if st.button("Get Insights"):
                 response = review_api.insights()
                 st.write(response)
-    
+
     with chat_tab:
         chat_tab.subheader("Ask a Question about your Resume")
         chatbox = st.container(height=400)
