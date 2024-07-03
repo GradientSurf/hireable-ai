@@ -27,7 +27,7 @@ jobs:
           echo "diff=$(cat "diff.txt")" >> $GITHUB_ENV
 
       - name: LLM Code Review
-        uses: rajsinghparihar/llm-code-review@1.0.1
+        uses: rajsinghparihar/llm-code-review@0.0.1
         id: review
         with:
           apiKey: ${{ secrets.API_KEY }}
