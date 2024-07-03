@@ -27,7 +27,7 @@ jobs:
           echo "diff=$(cat "diff.txt")" >> $GITHUB_ENV
 
       - name: LLM Code Review
-        uses: luiyen/llm-code-review@1.0.1
+        uses: rajsinghparihar/llm-code-review@1.0.1
         id: review
         with:
           apiKey: ${{ secrets.API_KEY }}
@@ -35,7 +35,7 @@ jobs:
           githubRepository: ${{ github.repository }}
           githubPullRequestNumber: ${{ github.event.pull_request.number }}
           gitCommitHash: ${{ github.event.pull_request.head.sha }}
-          repoId: "bigcode/starcoder2-7b"
+          repoId: "llama3-70b-8192"
           temperature: "0.2"
           maxNewTokens: "256"
           topK: "40"
