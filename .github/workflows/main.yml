@@ -26,8 +26,8 @@ jobs:
           # shellcheck disable=SC2086
           echo "diff=$(cat "diff.txt")" >> $GITHUB_ENV
 
-      - name: LLM Code Review
-        uses: rajsinghparihar/llm-code-review@0.0.1
+      - name: Groq Code Review
+        uses: rajsinghparihar/llm-code-review@v0.0.1-groq
         id: review
         with:
           apiKey: ${{ secrets.API_KEY }}
